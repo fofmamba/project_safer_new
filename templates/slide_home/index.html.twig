@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SlideHome index{% endblock %}
+
+{% block body %}4
+44
+44
+
+
+444
+
+
+444
+
+5555
+
+
+    <h1>SlideHome index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Titre</th>
+                <th>Contenue</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for slide_home in slide_homes %}
+            <tr>
+                <td>{{ slide_home.id }}</td>
+                <td>{{ slide_home.image }}</td>
+                <td>{{ slide_home.Titre }}</td>
+                <td>{{ slide_home.contenue }}</td>
+                <td>
+                    <a href="{{ path('app_slide_home_show', {'id': slide_home.id}) }}">show</a>
+                    <a href="{{ path('app_slide_home_edit', {'id': slide_home.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_slide_home_new') }}">Create new</a>
+{% endblock %}
