@@ -69,7 +69,7 @@
 }
 
 .banner-section {
-	background: url(../img/slider/bg-slide-01.jpg);
+	background-color:green($color: #000000);
 	@include background-properties;
 	.banner-slider-one {
 		position: relative;

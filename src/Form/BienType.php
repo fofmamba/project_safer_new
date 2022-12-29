@@ -3,12 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Bien;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class BienType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -17,19 +20,18 @@ class BienType extends AbstractType
             ->add('numero')
             ->add('titre')
             ->add('descriptif')
-            ->add('status')
+            ->add('status', ChoiceType::class, [
+                'label' => 'type',
+                'choices'  => [
+                    'Location' => true,
+                    'Vente' => false,
+                ],
+            ])
+            ->add('prix')
             ->add('photo', FileType::class, [
                 'label' => 'photo',
-
-                // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
-
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -39,9 +41,20 @@ class BienType extends AbstractType
                             'image/png',
                             'image/jpg',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid image',
+                        'mimeTypesMessage' => 'veuillez choisir une image',
                     ])
                 ],
+            ])
+            ->add('category', EntityType::class, [
+                'required' => true,
+                'label' => 'Categorie',
+                'class' => Category::class,
+                'choice_label' => 'libelle',
+                'constraints' => [
+                new NotBlank([
+                    'message' => 'Veuillez choisir un une categorie'
+                ])
+                ]
             ])
         ;
     }

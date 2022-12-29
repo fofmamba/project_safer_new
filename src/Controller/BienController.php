@@ -13,16 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Entity\SlideHome;
+use App\Form\SlideHomeType;
+use App\Repository\SlideHomeRepository;
 
 
 #[Route('/')]
 class BienController extends AbstractController
 {
     #[Route('/', name: 'app_bien_index', methods: ['GET'])]
-    public function index(BienRepository $bienRepository): Response
-    {
-        return $this->render('bien/index.html.twig', [
+    public function index(BienRepository $bienRepository,SlideHomeRepository $slideHomeRepository): Response
+    { return $this->render('bien/index.html.twig', [
             'biens' => $bienRepository->findAll(),
+            'slide' =>$slideHomeRepository->findAll(),
         ]);
     }
 

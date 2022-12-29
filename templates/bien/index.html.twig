@@ -1,77 +1,41 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<!-- Main -->
         <main class="main">
             <section class="banner-section position-relative">
                 <div class="container">
                     <div class="banner-slider">
                         <div class="banner-slider-one pagination-square align-pagination-square">
-                            <div class="banner-slider-single banner-animation-col">
+                    {% for slide_home in slide %}
+                        <div class="banner-slider-single banner-animation-col">
                                 <div class="row align-items-center">
                                     <div class="col-md-6 col-lg-6">
                                         <div class="banner-content">
                                             <h1 class="banner-title mb-25">
-                                                Face Mask  <span>Thermometer</span>
+                                                <span>{{ slide_home.Titre }}</span>
                                             </h1>
-                                            <p>Quis autem vel eum iure reprehenin voluptate velit esse quam nihil molestiae conse </p>
+                                            <p>{{ slide_home.contenue }}</p>
                                             <a href="shop-grid.html" class="shop-now">Shop Now <i class="feather-arrow-right ml-5"></i></a>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-lg-6">
                                         <div class="single-banner-slider">
-                                            <img  src="{{ asset('uploads/slide/47.06.098.jpg') }}">
+                                            <img  src=" uploads/slide/{{slide_home.image}}">
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="banner-slider-single banner-animation-col">
-                                <div class="row align-items-center">
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="banner-content">
-                                            <h1 class="banner-title mb-25">
-                                                Covid -19  <span>Temperature</span>
-                                            </h1>
-                                            <p>Eget aenean accumsan bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.</p>
-                                            <a href="shop-grid.html" class="shop-now">Shop Now <i class="feather-arrow-right ml-5"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="single-banner-slider" >
-                                            <img  src="{{ asset('uploads/slide/44 22 AN 08.jpg') }}" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="banner-slider-single banner-animation-col">
-                                <div class="row align-items-center">
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="banner-content">
-                                            <h1 class="banner-title mb-25">
-                                                Pulse <span>Oximeter</span>
-                                            </h1>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget aenean accumsan bibendum gravida maecenas augue elementum et neque. Suspendisse imperdiet.</p>
-                                            <a href="shop-grid.html" class="shop-now">Shop Now <i class="feather-arrow-right ml-5"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="single-banner-slider" >
-                                            <img  src="{{ asset('uploads/slide/48EL11345.jpg') }}" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
+                    {% else %}
+                        no records found
+                    {% endfor %}
                         </div>
                     </div>
                 </div>
             </section>
-            <!--End hero slider-->
-			
 
             <!-- Trending Products -->
 			<section class="trending-products">
                 <div class="container">
                     <div class="section-title wow animate__animated animate__fadeIn" data-wow-delay="0">
-                        <h3>Trending Products</h3>
                         <p>A highly efficient slip-ring scanner for today's diagnostic requirements.</p>
                     </div>
                     <div class="row">
@@ -80,7 +44,7 @@
                                 <div class="slider-arrow slider-arrow-two carousel-4-columns-arrow" id="carousel-5-columns-arrows"></div>
                                 <div class="carousel-4-columns carousel-arrow-center" id="carousel-5-columns">
                                     <!-- Product box -->
-                                     {% for bien in biens %}
+                                    {% for bien in biens %}
                                     <div class="product-card wow animate__animated animate__fadeIn" data-wow-delay=".1s">
                                         <div class="product-img-col">
                                             <div class="product-img product-img-zoom">
@@ -104,8 +68,7 @@
                                             </div>
                                             <div class="product-card-bottom ">
                                                 <div class="product-price">
-                                                    <span>$ 32.00</span>
-													<span class="old-price">$ 46.00</span>
+                                                    <span>{{ bien.prix }} $</span>
                                                 </div>
                                             </div>
                                             <div class="add-feature">
@@ -129,40 +92,4 @@
                 </div>
             </section>
             <!-- /Trending Products -->
- <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Numero</th>
-                <th>Titre</th>
-                <th>Descriptif</th>
-                <th>Status</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for bien in biens %}
-            <tr>
-                <td>{{ bien.id }}</td>
-                <td>{{ bien.numero }}</td>
-                <td>{{ bien.titre }}</td>
-                <td>{{ bien.descriptif }}</td>
-                <td>{{ bien.status ? 'Yes' : 'No' }}</td>
-                <td>{{ bien.image }}</td>
-                <td>
-                    <a href="{{ path('app_bien_show', {'id': bien.id}) }}">show</a>
-                    <a href="{{ path('app_bien_edit', {'id': bien.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-        </main>
-        <!-- /Main -->
 {% endblock %}
