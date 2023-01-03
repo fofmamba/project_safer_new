@@ -1,38 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block body %}
         <main class="main">
-            <section class="banner-section position-relative">
-                <div class="container">
-                    <div class="banner-slider">
-                        <div class="banner-slider-one pagination-square align-pagination-square">
-                    {% for slide_home in slide %}
-                        <div class="banner-slider-single banner-animation-col">
-                                <div class="row align-items-center">
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="banner-content">
-                                            <h1 class="banner-title mb-25">
-                                                <span>{{ slide_home.Titre }}</span>
-                                            </h1>
-                                            <p>{{ slide_home.contenue }}</p>
-                                            <a href="shop-grid.html" class="shop-now">Shop Now <i class="feather-arrow-right ml-5"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-6">
-                                        <div class="single-banner-slider">
-                                            <img  src=" uploads/slide/{{slide_home.image}}">
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                    {% else %}
-                        no records found
-                    {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Trending Products -->
 			<section class="trending-products">
                 <div class="container">
                     <div class="section-title wow animate__animated animate__fadeIn" data-wow-delay="0">
@@ -48,8 +16,8 @@
                                     <div class="product-card wow animate__animated animate__fadeIn" data-wow-delay=".1s">
                                         <div class="product-img-col">
                                             <div class="product-img product-img-zoom">
-                                                <a href="view-product.html">
-                                                    <img  src="uploads/biens/{{ bien.image }}" alt="">
+                                                <a href="">
+                                                    <img  src="/uploads/biens/{{ bien.image }}" alt="">
                                                 </a>
                                             </div>
                                             <div class="product-badge">
@@ -68,11 +36,11 @@
                                             </div>
                                             <div class="product-card-bottom ">
                                                 <div class="product-price">
-                                                    <span>{{ bien.prix }} $</span>
+                                                    <span>{{ bien.prix }}</span>
                                                 </div>
                                             </div>
                                             <div class="add-feature">
-                                                <a href="cart.html" class="btn btn-primary"><i class="feather-shopping-bag me-1"></i>Add</a>
+                                                <a href="{{path("app_bien_index", {id: bien.id})}}" class="btn btn-primary"><i class="fi-rs-heart"></i> Favoris</a>
                                                 <div class="product-details-inner">
                                                     <a href="{{ path('app_bien_show', {'id': bien.id}) }}"><i class="fi-rs-eye"></i></a>
                                                     <a aria-label="Quick view" class="product-btn" data-bs-toggle="modal" data-bs-target="#quickViewModal"><i class="fi-rs-search"></i></a>

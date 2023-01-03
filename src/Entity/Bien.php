@@ -34,6 +34,9 @@ class Bien
 
     #[ORM\Column(length: 255)]
     private ?string $prix = null;
+
+    #[ORM\Column]
+    private ?bool $isInHome = null;
     
 
     public function getId(): ?int
@@ -121,6 +124,18 @@ class Bien
     public function setPrix(string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function isIsInHome(): ?bool
+    {
+        return $this->isInHome;
+    }
+
+    public function setIsInHome(bool $isInHome): self
+    {
+        $this->isInHome = $isInHome;
 
         return $this;
     }

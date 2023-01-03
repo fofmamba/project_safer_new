@@ -13,19 +13,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\Entity\SlideHome;
-use App\Form\SlideHomeType;
 use App\Repository\SlideHomeRepository;
 
 
-#[Route('/')]
+#[Route('/bien')]
 class BienController extends AbstractController
 {
     #[Route('/', name: 'app_bien_index', methods: ['GET'])]
-    public function index(BienRepository $bienRepository,SlideHomeRepository $slideHomeRepository): Response
+    public function index(BienRepository $bienRepository): Response
     { return $this->render('bien/index.html.twig', [
             'biens' => $bienRepository->findAll(),
-            'slide' =>$slideHomeRepository->findAll(),
         ]);
     }
 
@@ -56,11 +53,8 @@ class BienController extends AbstractController
                                     $newFilename
                                 );
                             } catch (FileException $e) {
-                                // ... handle exception if something happens during file upload
                             }
             
-                            // updates the 'brochureFilename' property to store the PDF file name
-                            // instead of its contents
                             $bien->setImage($newFilename);
                         }
             $bienRepository->save($bien, true);

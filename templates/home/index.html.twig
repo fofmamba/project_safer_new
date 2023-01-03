@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <!-- Trending Products -->
+			<section class="trending-products">
+                <div class="container">
+                        <div class="row"><div class="section-title wow animate__animated animate__fadeIn" data-wow-delay="0">
+                            <h3>Nos promotions</h3>
+                            <h6>Devenez propriétaire aujourdh'hui</h6>
+                        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/safer_project/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/safer_project/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+                        <div class="col-xl-12">
+							<div class="feature-product-slider arrow-center position-relative">
+                                <div class="slider-arrow slider-arrow-two carousel-4-columns-arrow" id="carousel-5-columns-arrows"></div>
+                                <div class="carousel-4-columns carousel-arrow-center" id="carousel-5-columns">
+                                    {% for bien in top_products %}
+                                    <div class="product-card wow animate__animated animate__fadeIn" data-wow-delay=".1s">
+                                        <div class="product-img-col">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="">
+                                                    <img  src="uploads/biens/{{ bien.image }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-badge">
+                                                <span class="best">{{ bien.status ? 'Location' : 'Vente' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <h2><a href="view-product.html">{{ bien.titre }}</a></h2>
+                                            <div class="product-card-bottom ">
+                                                <div class="rating d-inline-block">
+													<td>{{ bien.descriptif }}</td>
+												</div>
+                                            </div>
+                                            <div class="product-card-bottom ">
+                                                <div class="product-price">
+                                                    <span>{{ bien.prix }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="add-feature">
+                                            {% if   bien.id !=0 %}
+                                                
+                                            {% endif %}
+                                                <a href="{{path("add_to_cart", {id: bien.id})}}" class="btn btn-primary"><i class="fi-rs-heart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                            <p colspan="7">no records found</p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+						</div>
+                    </div>
+                </div>
+            </section>
 {% endblock %}
