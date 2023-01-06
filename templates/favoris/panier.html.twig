@@ -2,9 +2,6 @@
 
 {% block title %}Hello FavorisController!{% endblock %}
 {% block body %}
-{% for message in app.session.flashbag.get('success') %}
-    <div class="alert alert-success">{{ message }}</div>
-{% endfor %}
             <div class="container mb-80 mt-50">
                 <div class="row">
                     <div class="col-lg-12">
@@ -60,12 +57,12 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <a href="{{path("app_favoris_new")}}" class="btn btn-success">
+                        <a href="{{path("adresse_envoi")}}" class="btn btn-success">
                         <i class="bi bi-cart-x"></i>ajouter autre favoris
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <a href="{{path("app_favoris_new")}}" class="btn btn-success">
+                        <a href="{{path("adresse_envoi")}}" class="btn btn-success">
                         <i class="bi bi-cart-x"></i>s'envoyer par mail
                         </a>
                     </div>

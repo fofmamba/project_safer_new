@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Bien;
 use App\Form\BienType;
 use App\Repository\BienRepository;
+use App\Repository\CategoryRepository;
 use App\Service\UploaderService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,7 +102,7 @@ class BienController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$bien->getId(), $request->request->get('_token'))) {
             $bienRepository->remove($bien, true);
         }
-
         return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
