@@ -19,6 +19,7 @@ class BienCrudController extends AbstractCrudController
         return Bien::class;
     }
 
+
     public function configureActions(Actions $actions): Actions 
     {
         return $actions
@@ -46,7 +47,7 @@ class BienCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Bien')
+            ->setEntityLabelInSingular('Bien.')
             ->setEntityLabelInPlural('Biens')
         ;
     }
