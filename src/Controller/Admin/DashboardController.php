@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Bien;
 use App\Entity\Category;
+use App\Entity\Favoris;
+use App\Entity\Utilisateur;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -23,11 +25,8 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        $url = $this->adminUrlGenerator
-        ->setController(BienCrudController::class)
-        ->generateUrl();
-
-        return $this->redirect($url);
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+        return $this->redirect($adminUrlGenerator->setController(BienCrudController::class)->generateUrl());
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -54,20 +53,17 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Tableau de Bord', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-        yield MenuItem::section('gestion biens');
 
-        yield MenuItem::subMenu('Biens', 'fas fa-bar')->setSubItems([
-            MenuItem::linkToCrud('Creer', 'fas fa-plus-circle', Bien::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('Voir', 'fas fa-eye', Bien::class),
-        ]);
+    yield MenuItem::linkToDashboard('Tableau de Bord', 'fa fa-home');
 
-        yield MenuItem::section('gestion categories');
+    yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Category::class);
 
-        yield MenuItem::subMenu('Categories', 'fas fa-bar')->setSubItems([
-            MenuItem::linkToCrud('creer', 'fas fa-plus-circle', Category::class)->setAction(Crud::PAGE_NEW),
-            MenuItem::linkToCrud('voir', 'fas fa-eye', Category::class),
-        ]);
-    }
+    yield MenuItem::linkToCrud('Bien', 'fas fa-tag', Bien::class);
+
+    yield MenuItem::linkToCrud('favoris', 'fas fa-heart', Favoris::class);
+    
+    yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', Utilisateur::class);
+
+    // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+    }   
 }

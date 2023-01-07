@@ -22,20 +22,4 @@ class NavigationController extends AbstractController
     )
     {
     }
-    #[Route('/admin', name: 'admin')]
-    public function admin(SessionInterface $session)
-    {
-            //récupération de l'utilisateur security>Bundle
-            $utilisateur = $this->getUser();
-            $url = $this->adminUrlGenerator;
-            //vérification des droits.
-            if($utilisateur && in_array('ROLE_ADMIN', $utilisateur->getRoles())){
-                return $this->redirect($url);
-            }
-
-            //redirection
-            $session->set("message", "Vous n'avez pas le droit d'acceder à la page admin vous avez été redirigé sur cette page");
-            return $this->redirectToRoute('home');
-
-    }
 }

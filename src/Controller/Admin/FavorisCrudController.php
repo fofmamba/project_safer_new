@@ -2,15 +2,14 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Bien;
-use App\Form\BienType;
+use App\Entity\Favoris;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class BienCrudController extends AbstractCrudController
+class FavorisCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Bien::class;
+        return Favoris::class;
     }
 
     /*
