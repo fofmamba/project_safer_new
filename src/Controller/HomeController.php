@@ -17,10 +17,14 @@ class HomeController extends AbstractController
         //]);
         $biens = $bienRepository->findByIsInHome(1);
         $slide = $headersRepository->findAll();
+        $randon = $bienRepository->findAll();
+        shuffle($randon);
+        $limitedItems = array_slice($randon, 0, 3);
         return $this->render('home/index.html.twig', [
             'carousel' => true,  //Le caroussel ne s'affiche que sur la page d'accueil (voir base.twig)
             'top_products' => $biens,
-            'headers' => $slide
+            'headers' => $slide,
+            'shuffe' =>$limitedItems,
         ]);
     }
 
