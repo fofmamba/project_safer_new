@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Repository\BienRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,20 +31,24 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $categoryRepository->save($category, true);
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_category_index', [ 
+                'categories' => $categoryRepository->findAll()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('category/new.html.twig', [
             'category' => $category,
             'form' => $form,
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 
     #[Route('/{id}', name: 'app_category_show', methods: ['GET'])]
-    public function show(Category $category): Response
+    public function show(Category $category,CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/show.html.twig', [
             'category' => $category,
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 
@@ -62,6 +67,7 @@ class CategoryController extends AbstractController
         return $this->renderForm('category/edit.html.twig', [
             'category' => $category,
             'form' => $form,
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 
@@ -72,6 +78,11 @@ class CategoryController extends AbstractController
             $categoryRepository->remove($category, true);
         }
 
-        return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_category_index', [ 
+            'categories' => $categoryRepository->findAll(),
+        ], Response::HTTP_SEE_OTHER);
     }
+
+
+    
 }

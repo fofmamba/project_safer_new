@@ -21,14 +21,15 @@ use App\Repository\SlideHomeRepository;
 class BienController extends AbstractController
 {
     #[Route('/', name: 'app_bien_index', methods: ['GET'])]
-    public function index(BienRepository $bienRepository): Response
+    public function index(BienRepository $bienRepository,CategoryRepository $categoryRepository): Response
     { return $this->render('bien/index.html.twig', [
             'biens' => $bienRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_bien_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BienRepository $bienRepository, SluggerInterface $slugger,UploaderService $uploaderService,): Response
+    public function new(Request $request, BienRepository $bienRepository, SluggerInterface $slugger,UploaderService $uploaderService, CategoryRepository $categoryRepository): Response
     {
         
         $bien = new Bien();
@@ -60,12 +61,15 @@ class BienController extends AbstractController
                         }
             $bienRepository->save($bien, true);
 
-            return $this->redirectToRoute('app_bien_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_bien_index', [
+                'categories' => $categoryRepository->findAll()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('bien/new.html.twig', [
             'bien' => $bien,
             'form' => $form,
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 

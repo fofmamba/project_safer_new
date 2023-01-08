@@ -3,19 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Favoris;
+use App\Entity\Category;
 use App\Form\Favoris1Type;
-use App\Repository\FavorisRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Bien;
-use App\Form\FavorisType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Repository\BienRepository;
-use Symfony\Component\Form\FormView;
-use Doctrine\ORM\Mapping\Id;
+use App\Repository\CategoryRepository;
+use App\Repository\FavorisRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
@@ -34,10 +32,11 @@ class FavorisController extends AbstractController
 
 
     #[Route('/', name: 'app_favoris_index', methods: ['GET'])]
-    public function index(FavorisRepository $favorisRepository,BienRepository $bienRepository): Response
+    public function index(FavorisRepository $favorisRepository,BienRepository $bienRepository,CategoryRepository $categoryRepository): Response
     {
         $session = $this->requestStack->getSession();
         $panier = $session->get("panier", []);
+        $categories= $categoryRepository->findAll();
         $dataPanier = [];
         $total = 0;
         $cpt =0;
@@ -52,7 +51,7 @@ class FavorisController extends AbstractController
         }
         return $this->render(
             'favoris/index.html.twig',
-            compact("dataPanier", "total")
+            compact("dataPanier", "total","categories")
         );
     }
 
@@ -64,15 +63,15 @@ class FavorisController extends AbstractController
         $cpt=0;
         $favoris = $session->get("panier", []);
         $id = $bien->getId();
+        $idcat = $bien->getCategoryid();
         if (empty($favoris[$id])) {
             $favoris[$id] = 1;
             $cpt +=1;
         } else {
             $favoris[$id] = 1;
-
         }
         $session->set("panier", $favoris);
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('show_bien_by_categorie', ['id' => $idcat]);
     }
 
     #[Route('/delete', name: 'delete_all')]
@@ -99,7 +98,7 @@ class FavorisController extends AbstractController
         // On sauvegarde dans la session
         $session->set("panier", $panier);
 
-        return $this->redirectToRoute("");
+        return $this->redirectToRoute("app_favoris_index");
     }
 
     #[Route('/new', name: 'app_favoris_new', methods: ['GET', 'POST'])]
@@ -175,6 +174,23 @@ class FavorisController extends AbstractController
         }
 
         return $this->redirectToRoute('app_favoris_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/articles/{id}', name: 'show_bien_by_categorie')]
+    public function getBycategorie(BienRepository $bienRepository,Category $category,CategoryRepository $categoryRepository): Response
+    {
+        $id_bien = $category->getId();
+        $categoryLibelle= $category->getLibelle();
+        $biens = $bienRepository->findBy(
+            ['category' => $id_bien]
+        );
+        
+        return $this->render('category/show.html.twig', [
+            'category' => $categoryLibelle,
+            'biens' => $biens,
+            'categories' => $categoryRepository->findAll()
+        ]);
     }
 
 }
