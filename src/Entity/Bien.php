@@ -37,6 +37,12 @@ class Bien
 
     #[ORM\Column]
     private ?bool $isInHome = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $surface = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $departement = null;
     
 
     public function getId(): ?int
@@ -108,7 +114,10 @@ class Bien
     {
         return $this->category;
     }
-
+    public function getCategoryid(): ?int
+    {
+        return $this->category->getId();
+    }
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
@@ -136,6 +145,30 @@ class Bien
     public function setIsInHome(bool $isInHome): self
     {
         $this->isInHome = $isInHome;
+
+        return $this;
+    }
+
+    public function getSurface(): ?string
+    {
+        return $this->surface;
+    }
+
+    public function setSurface(string $surface): self
+    {
+        $this->surface = $surface;
+
+        return $this;
+    }
+
+    public function getDepartement(): ?string
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(string $departement): self
+    {
+        $this->departement = $departement;
 
         return $this;
     }

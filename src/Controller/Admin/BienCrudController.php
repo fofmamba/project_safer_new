@@ -32,15 +32,17 @@ class BienCrudController extends AbstractCrudController
             TextField::new('numero'),
             TextField::new('titre'),
             TextField::new('descriptif'),
-            MoneyField::new('prix')->setCurrency('EUR'),
+            TextField::new('prix'),
+            TextField::new('surface'),
+            TextField::new('Departement'),
             ImageField::new('image')
                 ->setBasePath('uploads/')
                 ->setUploadDir('public/uploads/biens')
                 ->setUploadedFileNamePattern('[randomhash].[extension]')
                 ->setRequired(false),
             AssociationField::new('category')->autocomplete(),
-            BooleanField::new('status', 'afficher dans les top produit'),
-            BooleanField::new('isInHome', 'afficher dans les top produit')
+            BooleanField::new('status', 'status'),
+            BooleanField::new('isInHome', 'headers')
         ];
     }
 

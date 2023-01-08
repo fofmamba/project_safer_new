@@ -2,25 +2,64 @@
 
 {% block title %}Category{% endblock %}
 
-{% block body %}
-    <h1>Category</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
-                <th>Libelle</th>
-                <td>{{ category.libelle }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_category_index') }}">back to list</a>
-
-    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-
-    {{ include('category/_delete_form.html.twig') }}
+{% block body %} 
+        <!-- Main -->
+        <main class="main">
+            <div class="row">
+                            <div class="col-lg-12 ">
+                                <div class=" primary text-left">
+                                <h4>categorie : {{ category }}</h4>
+                                </div>
+                            </div>
+            </div>
+            <div class="page-content">
+                <div class="container mb-30">
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                        <div class="row product-grid">
+                        
+                                    <!-- Product box --> {% for bien in biens %}
+                                <div class="col-xl-3 col-md-3 col-12 col-sm-6">
+                                    <div class="product-card wow animate__animated animate__fadeIn mb-25" data-wow-delay=".1s">
+                                        <div class="product-img-col">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="">
+                                                    <img  src="/uploads/biens/{{ bien.image }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-badge">
+                                                <span class="best">{{ bien.status ? 'Location' : 'Vente' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content">
+                                            <h2><a href="view-product.html">{{ bien.titre }}</a></h2>
+                                            <div class="product-card-bottom ">
+                                                <div class="rating d-inline-block">
+													<td>{{ bien.descriptif }}</td>
+												</div>
+                                            </div>
+                                            <div class="product-card-bottom ">
+                                                <div class="product-price">
+                                                    <span>{{ bien.prix }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="add-feature">
+                                            {% if   bien.id !=0 %}
+                                                
+                                            {% endif %}
+                                                <a href="{{path("add_to_cart", {id: bien.id})}}" class="btn btn-primary"><i class="fi-rs-heart"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Product box -->
+                                </div>
+                                
+                                    {% else %}
+                                            <p colspan="7">Pas de bien disponible</p>
+                                    {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 {% endblock %}

@@ -21,6 +21,11 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    public function findAllData()
+    {
+        return $this->findAll();
+    }
+    
     public function save(Category $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
