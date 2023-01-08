@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 #[Route('/favoris')]
 class FavorisController extends AbstractController
 {
@@ -112,6 +113,8 @@ class FavorisController extends AbstractController
         $session = $this->requestStack->getSession();
         $panier = $session->get("panier", []);
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $emaile = (new TemplatedEmail());
             $cle=array_keys($panier);
             foreach ($cle as $id) {
                 $product = $bienRepository->find($id);
@@ -123,14 +126,16 @@ class FavorisController extends AbstractController
                 $numero = $form['numero']->getData();
                 $favori->setEmail($email);
                 $favori->setNumero($numero);
+                //création de mail
                 $this->entityManager->persist($favori);
                 $this->entityManager->flush();
-                $emaile = (new Email());
-                $emaile->from('mambamakagbe@gmail.com');
-                $emaile->to($email);
-                $emaile->subject('Welcome to the Space Bar!');
-                $mailer->send($emaile);
                 }
+                $emaile->from('mambamakagbe@gmail.com');
+                $emaile->to('kyria.agbodouamenou@gmail.com');
+                $emaile->subject('Welcome to the Space Bar!');
+                //envoi de mail
+                $mailer->send($emaile);
+                //confirmaation dee l'envoi du mail et redirection
             $sessio->getFlashBag()->add('success', 'Envoyer avec succès');
             $session->remove("panier");
             return $this->redirectToRoute('app_favoris_index', compact('sessio'), Response::HTTP_SEE_OTHER);
@@ -156,6 +161,7 @@ class FavorisController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $favorisRepository->save($favori, true);
 
             return $this->redirectToRoute('app_favoris_index', [], Response::HTTP_SEE_OTHER);
