@@ -103,7 +103,7 @@ class FavorisController extends AbstractController
     }
 
     #[Route('/new', name: 'app_favoris_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, FavorisRepository $favorisRepository,BienRepository $bienRepository,MailerInterface $mailer): Response
+    public function new(Request $request, FavorisRepository $favorisRepository,BienRepository $bienRepository,MailerInterface $mailer,CategoryRepository $categoryRepository): Response
     {
         $favori = new Favoris();
         $form = $this->createForm(Favoris1Type::class, $favori);
@@ -142,6 +142,7 @@ class FavorisController extends AbstractController
         return $this->renderForm('favoris/new.html.twig', [
             'favori' => $favori,
             'form' => $form,
+            'categories' => $categoryRepository->findAll(),
         ]);
     }
 
